@@ -1,16 +1,12 @@
 # namer_app
 
-A new Flutter project.
+Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Application (including modifications) of first Flutter app codelab from Flutter documentation.
+https://codelabs.developers.google.com/codelabs/flutter-codelab-first
+https://docs.flutter.dev/get-started/codelab
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Original app and license info can be found in the codelab repo here: 
+https://github.com/flutter/codelabs/tree/main/namer/step_08
