@@ -1,0 +1,37 @@
+# Specify basic information about the app, such as its current version, 
+# its dependencies, and the assets with which it will ship.
+# Manage Flutter packages: flutter pub
+# Check outdated packages: flutter pub outdated
+# Update outdated packages: flutter pub upgrade --major-versions
+#     flutter_lints should be updated to newer version.
+# Change environment sdk to 3.3.0 - This is Dart SDK.
+# flutter clean before uploading the repo.
+# After downloading we should do flutter pub get.
+
+# Name of the app.
+name: namer_app
+description: A new Flutter project.
+
+# We don't plan to publish to pub.dev.
+publish_to: 'none'
+
+version: 0.0.1+1
+
+environment:
+  sdk: ^3.3.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  english_words: ^4.0.0
+  provider: ^6.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.1
+
+flutter:
+  uses-material-design: true
