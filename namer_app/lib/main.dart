@@ -1,10 +1,9 @@
 // Application of first Flutter app codelab from Flutter documentation
 // https://codelabs.developers.google.com/codelabs/flutter-codelab-first
 // https://docs.flutter.dev/get-started/codelab
-// 
-// Original app and license info can be found in the codelab repo here: 
+//
+// Original app and license info can be found in the codelab repo here:
 // https://github.com/flutter/codelabs/tree/main/namer/step_08
-
 
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +17,6 @@ void main() {
 
 // The MyApp class extends StatelessWidget.
 // There is also StatefulWidget
-// Widgets: elements from which you build every Flutter app.
-// Even the app itself is a widget.
 // The code in MyApp sets up the whole app;
 //    Create the app-wide state
 //    Name the app
@@ -67,6 +64,10 @@ class MyAppState extends ChangeNotifier {
 }
 
 class MyHomePage extends StatefulWidget {
+  // https://api.flutter.dev/flutter/widgets/StatefulWidget/createState.html
+  // Creates the mutable state for a widget at a given location in the tree.
+  // Establish the link between stateful widget (MyHomePage) and its
+  // corresponding state class (_MyHomePage).
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -86,43 +87,45 @@ class _MyHomePageState extends State<MyHomePage> {
         throw UnimplementedError('no widget for $selectedIndex');
     }
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Scaffold(
-          body: Row(
-            children: [
-              SafeArea(
-                child: NavigationRail(
-                  extended: constraints.maxWidth >= 600,
-                  destinations: [
-                    NavigationRailDestination(
-                      icon: Icon(Icons.home),
-                      label: Text('Home'),
-                    ),
-                    NavigationRailDestination(
-                      icon: Icon(Icons.favorite),
-                      label: Text('Favorites'),
-                    ),
-                  ],
-                  selectedIndex: selectedIndex,
-                  onDestinationSelected: (value) {
-                    setState(() {
-                      selectedIndex = value;
-                    });
-                  },
-                ),
+    return LayoutBuilder(builder: (context, constraints) {
+      return Scaffold(
+        body: Row(
+          children: [
+            SafeArea(
+              child: NavigationRail(
+                extended: constraints.maxWidth >= 600,
+                destinations: [
+                  NavigationRailDestination(
+                    icon: Icon(Icons.home),
+                    label: Text('Home'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.favorite),
+                    label: Text('Favorites'),
+                  ),
+                ],
+                selectedIndex: selectedIndex,
+                onDestinationSelected: (value) {
+                  // https://api.flutter.dev/flutter/widgets/State/setState.html
+                  // Notify the framework that the internal state of this
+                  // object has changed. Causes the framework to schedule a
+                  // build for this State object.
+                  setState(() {
+                    selectedIndex = value;
+                  });
+                },
               ),
-              Expanded(
-                child: Container(
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                  child: page,
-                ),
+            ),
+            Expanded(
+              child: Container(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                child: page,
               ),
-            ],
-          ),
-        );
-      }
-    );
+            ),
+          ],
+        ),
+      );
+    });
   }
 }
 
