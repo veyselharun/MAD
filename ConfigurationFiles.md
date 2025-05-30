@@ -84,7 +84,7 @@
 
 ### `.mobileprovision`
 - **Path:** `~/Library/MobileDevice/Provisioning Profiles/`
-- **Description:** Provisioning profile used for code signing and distribution (not stored directly in repo).
+- **Description:** Provisioning profile used for code signing and distribution.
 
 ### `YourProjectName.entitlements`
 - **Path:** `ios/YourProjectName/YourProjectName.entitlements`
