@@ -22,7 +22,7 @@ The `analysis_options.yaml` file is used to configure the Dart analyzer, which c
 
 ## The `pubspec.yaml` File
 
-The pubspec.yaml file serves as the central configuration file for a Flutter project, defining dependencies, assets, versioning, and other metadata essential for the application. It specifies which packages the project relies on, along with details like the app name, version, and required Flutter SDK version.
+The `pubspec.yaml` file serves as the central configuration file for a Flutter project, defining dependencies, assets, versioning, and other metadata essential for the application. It specifies which packages the project relies on, along with details like the app name, version, and required Flutter SDK version.
 
 
 ## The android/build.gradle.kts File
