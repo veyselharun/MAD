@@ -73,7 +73,7 @@ class GuessInput extends StatelessWidget {
 }
 
 // The grid grid must reflect the user's guesses. Each tile in the next
-// unfilled row should update after each submitted user guess by:
+// unfilled row should update after each submitted user guess by
 // Displaying the correct letter.
 // Changing color to reflect whether the letter is correct (green),
 // is in the word but at an incorrect position (yellow),
@@ -87,7 +87,7 @@ class GuessInput extends StatelessWidget {
 // after creation), the State object is long-lived, can hold mutable data,
 // and can be rebuilt when that data changes, causing the UI to update.
 
-// Changet the GamePage widget to a stateful widget.
+// Change the GamePage widget to a stateful widget.
 // To convert the GamePage (or any other) widget from a stateless widget to
 // a stateful widget, do the following steps:
 // 1. Change GamePage to extend StatefulWidget instead of StatelessWidget.
@@ -98,7 +98,7 @@ class GuessInput extends StatelessWidget {
 // 3. Implement the createState() method in GamePage, which returns an
 //    instance of _GamePageState.
 class GamePage extends StatefulWidget {
-  GamePage({super.key});
+  const GamePage({super.key});
 
   @override
   State<GamePage> createState() => _GamePageState();

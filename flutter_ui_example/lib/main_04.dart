@@ -24,10 +24,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// GuessInput is a dedicated widget named that allows users to type in their
+// GuessInput is a dedicated widget that allows users to type in their
 // guesses. It requires onSubmitGuess callback function as an argument.
 // In the GuessInput widget, we write our guess, then we press enter or
 // we click a button to submit the guess.
+
+// Expanded is a layout widget that fills the available space within a Row,
+// Column, or Flex, allowing a child widget to take up all remaining room
+// or a proportional share when multiple Expanded widgets are used together
+// with the flex property.
 
 // TextField is an input widget that allows users to type text using
 // the keyboard, giving you control over styling, hints, validation,
@@ -41,8 +46,7 @@ class MyApp extends StatelessWidget {
 //   A widget that makes up the content of the button (often Text or an Icon).
 //
 // IconButton is an interactive widget that displays a tappable icon,
-// allowing you to trigger actions in response to user presses while
-// following Material Design touch target guidelines automatically.
+// allowing you to trigger actions in response to user presses.
 class GuessInput extends StatelessWidget {
   GuessInput({super.key, required this.onSubmitGuess});
 
@@ -96,7 +100,7 @@ class GuessInput extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(35)),
                 ),
               ),
-              // Set the controller of the TextField to _textEditionController
+              // Set the controller of the TextField to _textEditingController
               // to manage the text that the user types into the input field.
               controller: _textEditingController,
               onSubmitted: (String value) {
@@ -140,7 +144,7 @@ class GamePage extends StatelessWidget {
           GuessInput(
             // Callback function sent to GuessInput
             onSubmitGuess: (String guess) {
-              print(guess); // Temporary
+              print(guess); // Temporary code line.
             },
           ),
         ],
