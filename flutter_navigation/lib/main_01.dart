@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
       ),
       home: const FirstScreen(),
     );
@@ -58,6 +58,8 @@ class FirstScreen extends StatelessWidget {
               MaterialPageRoute<void>(
                 // builder lazily creates SecondScreen only when the route is
                 // pushed.
+                // This is a new route context. It is used when building 
+                // SecondScreen.
                 builder: (context) => const SecondScreen(),
               ),
             );

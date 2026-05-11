@@ -9,7 +9,7 @@ void main() {
   runApp(const MyApp());
 }
 
-// Global router. Defines all named routes and their screen builders.
+// Defines the application's route table.
 final GoRouter _router = GoRouter(
   routes: [
     GoRoute(
