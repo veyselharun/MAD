@@ -1,7 +1,9 @@
-// GoRouter example using bottom tab navigation with StatefulShellRoute.
+// GoRouter extra example: passing optional data directly between routes.
 //
-// StatefulShellRoute maintains separate navigation stacks for each tab,
-// preserving state when switching between tabs.
+// The `extra` parameter is used to send supplementary data during navigation
+// without encoding it into the URL. This is useful for objects, models,
+// or temporary values that do not need to be shareable/bookmarkable.
+// GoRouter extra example: passing an object between routes.
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,50 +11,34 @@ void main() {
   runApp(const MyApp());
 }
 
-// Defines the application's route table with bottom tab navigation.
-// StatefulShellRoute maintains separate navigation stacks per tab.
+// Simple model class used for object passing.
+class User {
+  final String name;
+  final int age;
+
+  const User({
+    required this.name,
+    required this.age,
+  });
+}
+
+// Global router. Defines all named routes and their screen builders.
 final GoRouter _router = GoRouter(
-  initialLocation: '/',
   routes: [
-    StatefulShellRoute.indexedStack(
-      builder: (context, state, navigationShell) {
-        return ScaffoldWithNavBar(navigationShell: navigationShell);
+    GoRoute(
+      path: '/',
+      builder: (context, state) => const FirstScreen(),
+    ),
+    // No parameter in the path; object is passed directly through
+    // navigation and exposed via state.extra.
+    GoRoute(
+      path: '/second',
+      builder: (context, state) {
+        final User? user = state.extra as User?;
+        return SecondScreen(
+          user: user,
+        );
       },
-      branches: [
-        // Branch 1: Home tab
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/',
-              builder: (context, state) => const FirstScreen(),
-              routes: [
-                GoRoute(
-                  path: 'details',
-                  builder: (context, state) => const DetailsScreen(),
-                ),
-              ],
-            ),
-          ],
-        ),
-        // Branch 2: Second tab
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/second',
-              builder: (context, state) => const SecondScreen(),
-            ),
-          ],
-        ),
-        // Branch 3: Third tab
-        StatefulShellBranch(
-          routes: [
-            GoRoute(
-              path: '/third',
-              builder: (context, state) => const ThirdScreen(),
-            ),
-          ],
-        ),
-      ],
     ),
   ],
 );
@@ -63,47 +49,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'GoRouter Bottom Nav Demo',
+      title: 'GoRouter Object Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
       ),
-      // Connects MaterialApp to GoRouter.
       routerConfig: _router,
-    );
-  }
-}
-
-// Scaffold that wraps tab content with a persistent BottomNavigationBar.
-// navigationShell handles switching branches and preserving per-tab state.
-class ScaffoldWithNavBar extends StatelessWidget {
-  const ScaffoldWithNavBar({super.key, required this.navigationShell});
-
-  final StatefulNavigationShell navigationShell;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      // Renders the currently active branch's page.
-      body: navigationShell,
-      bottomNavigationBar: BottomNavigationBar(
-        // Sync the selected tab with the active branch index.
-        currentIndex: navigationShell.currentIndex,
-        onTap: (index) {
-          // goBranch() switches to the selected tab branch.
-          // initialLocation: true restores the branch's root route
-          // if the user taps the already-active tab (back-to-top behavior).
-          navigationShell.goBranch(
-            index,
-            initialLocation: index == navigationShell.currentIndex,
-          );
-        },
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Second'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Third'),
-        ],
-      ),
     );
   }
 }
@@ -116,38 +66,18 @@ class FirstScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Home')),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Home Tab', style: TextStyle(fontSize: 24)),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // Pushes a nested route within the Home tab's branch stack.
-                context.go('/details');
-              },
-              child: const Text('Go to Details'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// Nested route inside the Home tab branch.
-// Uses context.pop() to return within the same tab stack.
-class DetailsScreen extends StatelessWidget {
-  const DetailsScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Details')),
-      body: Center(
         child: ElevatedButton(
-          onPressed: () => context.pop(),
-          child: const Text('Back to Home'),
+          onPressed: () {
+            // Creates an object locally, then passes it via extra.
+            // The receiving route can access the full object directly.
+            const user = User(
+              name: 'Alice',
+              age: 25,
+            );
+
+            context.go('/second', extra: user);
+          },
+          child: const Text('Go to Second Screen'),
         ),
       ),
     );
@@ -155,28 +85,38 @@ class DetailsScreen extends StatelessWidget {
 }
 
 class SecondScreen extends StatelessWidget {
-  const SecondScreen({super.key});
+  // Accepts the extracted object via constructor, decoupling
+  // widget logic from routing concerns.
+  final User? user;
+
+  const SecondScreen({
+    super.key,
+    required this.user,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Second Screen')),
-      body: const Center(
-        child: Text('Second Tab', style: TextStyle(fontSize: 24)),
-      ),
-    );
-  }
-}
-
-class ThirdScreen extends StatelessWidget {
-  const ThirdScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Third Screen')),
-      body: const Center(
-        child: Text('Third Tab', style: TextStyle(fontSize: 24)),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Name: ${user?.name ?? 'Unknown'}',
+              style: const TextStyle(fontSize: 20),
+            ),
+            Text(
+              'Age: ${user?.age ?? 0}',
+              style: const TextStyle(fontSize: 20),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () => context.go('/'),
+              child: const Text('Back to Home'),
+            ),
+          ],
+        ),
       ),
     );
   }
